@@ -101,19 +101,53 @@ $rs = count($rows);
         
     </div>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">用户订单处理</h4>
+      </div>
+      <div class="modal-body">
+        <h4>修改订单状态</h4>
+        <button type="button" onClick="setdd('dcl')" class="btn btn-primary" data-dismiss="modal">待处理</button>
+        <button type="button" onClick="setdd('ok')" class="btn btn-primary" data-dismiss="modal">成功</button>
+        <button type="button" onClick="setdd('err')" class="btn btn-primary" data-dismiss="modal">失败</button>
+        <h4>订单操作</h4>
+        <button type="button" onClick="setdd('out')" class="btn btn-primary" data-dismiss="modal">退款</button>
+        
+        <div id="modk"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
 <?php
-$boms='<script>
+$boms=<<<EOT
+<script>
+function setdd(s){
+var htm=$.ajax({url:"php/admin.php?setdd&"+s+"&"+tid,async:false});
+    alert(htm.responseText);
+    window.location.reload();
+}
 $(".editbtn").click(function(){
 uid=$(this).parent().parent().find(".uid").text();
-window.location.replace("./view.php?admin&user_edit&"+uid);
-});
-$(".ddbtn").click(function(){
-uid=$(this).parent().parent().find(".uid").text();
-window.location.replace("./view.php?admin&user_dd&"+uid);
+tid=uid;
+
+$("#myModal").modal("show")
 });
 $(".delbtn").click(function(){
 uid=$(this).parent().parent().find(".uid").text();
-window.location.replace("./php/admin.php?dddel&"+uid);
+if(window.confirm("你确定要删除"+uid+"？")){
+window.location.href="./php/admin.php?dddel&"+uid;
+                 return true;
+              }else{
+                 return false;
+             }
 });
-</script>';
+</script>
+EOT;
 ?>

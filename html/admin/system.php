@@ -2,7 +2,7 @@
 $btitle = $btitle . "/系统";
 ?>
 <div class="row">
-    <div class="col-sm-8 col-xs-12">
+    <div class="col-md-8 col-xs-12">
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
@@ -16,6 +16,8 @@ $btitle = $btitle . "/系统";
                     <div><input name="name" value="<?php echo $conf['name'];?>" class="form-control" type="text"></div>
                     <div class="sub-title">站点标题</div>
                     <div><input name="title" value="<?php echo $conf['title'];?>" class="form-control" type="text"></div>
+                    <div class="sub-title">分站可选域名(多个 , 隔开,如 abc.cn)</div>
+                    <div><input name="hosts" value="<?php echo $conf['hosts'];?>" class="form-control" type="text"></div>
                     <div class="sub-title">CDN (assets目录地址，默认./或留空)</div>
                     <div><input name="cdn" value="<?php echo $conf['cdn'];?>" class="form-control" type="text"></div>
                     <div class="sub-title">安全设置</div>
@@ -32,12 +34,7 @@ $btitle = $btitle . "/系统";
                         </label>
                     </div>
                     
-                    <div class="sub-title">公告</div>
-                    <div>
-                        <textarea name="gg" class="form-control" id="editor">
-                            <?php echo str_replace("\\n", "\n", $conf['gg']); ?>
-                        </textarea>
-                    </div>
+
                     <br>
                     <button type="submit" class="btn btn-success">提交数据</button>
                 </form>
@@ -46,8 +43,4 @@ $btitle = $btitle . "/系统";
         </div>
     </div>
 </div>
-<script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
-<?php
-$boms = "<script>
-CKEDITOR.replace('gg');
-</script>";
+

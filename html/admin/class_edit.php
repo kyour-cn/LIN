@@ -1,5 +1,5 @@
 <?php
-$iuser=array('zt'=>'1','money'=>'0');
+$iuser=array('zt'=>'1','money'=>'0','px'=>"10","iszk"=>"");
 if($yms[2]=="add"){
     //$iuser=array('zt'=>'1','money'=>'0');
     $btitle=$btitle."/添加用户分组";
@@ -31,11 +31,21 @@ $iuser=$pdo->query("SELECT * FROM class where cid='{$yms[2]}'")->fetch();
                                     <div>
                                         <input name="px" value="<?php echo $iuser['px'];?>" class="form-control" type="text">
                                     </div>
-                                    <div class="sub-title">启用状态</div>
+                                    <div class="sub-title">分类介绍</div>
+                                    <div>
+                                        <input name="text" value="<?php echo $iuser['text'];?>" class="form-control" type="text">
+                                    </div>
+                                    <div class="sub-title">分类状态</div>
                                     <div class="checkbox3 checkbox-success checkbox-inline checkbox-check checkbox-round  checkbox-light">
-                                            <input name="zt" value="1" id="checkbox-fa-light-2" <?php if($iuser['zt']=="1")echo 'checked="checked"';?> type="checkbox">
-                                            <label for="checkbox-fa-light-2">
+                                            <input name="zt" value="1" id="checkbox1" <?php if($iuser['zt']=="1")echo 'checked="checked"';?> type="checkbox">
+                                            <label for="checkbox1">
                                               是否启用该分类
+                                            </label>
+                                    </div><br>
+                                    <div class="checkbox3 checkbox-success checkbox-inline checkbox-check checkbox-round  checkbox-light">
+                                            <input name="iszk" value="1" id="checkbox2" <?php if($iuser['iszk']=="1")echo 'checked="checked"';?> type="checkbox">
+                                            <label for="checkbox2">
+                                              是否启用用户组折扣
                                             </label>
                                     </div>
                                     <br>

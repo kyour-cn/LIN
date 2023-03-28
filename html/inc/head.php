@@ -5,14 +5,14 @@
 作者Q 1270701414
 官网  http://www.kyour.vip
         -科佑儿网络
--->
+--> 
 <head>
-    <title><?php echo $conf['title']; ?> - 科佑儿网络</title>
+    <title><?php echo $conf['title']; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/lib/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/animate.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/bootstrap-switch.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/checkbox3.min.css">

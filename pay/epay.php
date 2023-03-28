@@ -30,90 +30,104 @@ $name = "测试";
 $money = '0.01';
 //站点名称
 $sitename = '科佑儿网络';
-$time = date("Y-m-d H:i:sa");
+$time =date("Y-m-d H:i:s",time());
 
 //下单处理
 if ($ym == "add"){
     $money =trims( $_POST['money']);
+    if(!isnum($money)){
+        $_SESSION["alert"] = alert('金额输入有误！',1);
+        header("Location:" . $_SESSION["payqurl"]);
+        exit;
+    }
     $name = "充值余额" . $money . "元";
     $sql = "INSERT INTO `orders`(`tid`, `uid`, `name`, `addtime`, `tradeno`, `money`, `zt`, `cid`, `input`) VALUES ('0', ?, ?, ?, ?, ?, 0, '1', ?)";
-    $a = array($_SESSION["user_uid"], $name, $time, $out_trade_no, $money, "余额" . $user['money']);
+    $a = array($user['uid'], $name, $time, $out_trade_no, $money, "余额" . $user['money']);
     query($sql, $a);
     //$pdo->query($sql);
 }else if ($ym == "xd"){
     if (empty($num)) $num = "1";
-    $tool = $pdo->query("SELECT * FROM tools where tid='{$tid}'")->fetch();
+    $tool = $pdo->query("SELECT * FROM tools where zt='1' and tid='{$tid}'")->fetch();
     if (empty($tool['tid'])) {
-        $_SESSION["alert"] = '<div class="alert alert-danger" role="alert">该商品并不存在！</div>';
+        $_SESSION["alert"] = alert('该商品并不存在！',1);
+        header("Location:" . $_SESSION["payqurl"]);
+        exit;
+    }
+    if($num<$tool['num']){
+        $_SESSION["alert"] = alert("下单数量不能低于{$tool['num']}！",1);
         header("Location:" . $_SESSION["payqurl"]);
         exit;
     }
     
-    
-    $money = $tool['money']; //未计算折扣
+     //未计算折扣
     
     //计算价格
+    $money=getmytoolmon($tool);
+    /*
     $b = $pdo->query("SELECT * FROM tools_money where tid='{$tool['tid']}'")->fetch();
     $money=$b[$user['class']];
     if($money=="main"){
         $money=$tool['money'];
+        $c = $pdo->query("SELECT * FROM class where cid='{$tool['class']}'")->fetch();
+        if($c['iszk']=="1"){
+        $uc=$pdo->query("SELECT * FROM user_class where vipid='{$user['class']}'")->fetch();
+        $money=round($money*($uc['zk']/100),8);
+        }
     }
-    
+    */
+
     $name = "购买:" . $tool['name'];
-    $sql = "INSERT INTO `orders`(`tid`, `uid`, `name`, `addtime`, `tradeno`, `money`, `zt`, `cid`, `input`, `num`) VALUES (?,?, ?, ?, ?, ?, 0, '2', ?, ?)";
     $b = "0";
     $input="";
     //处理input上传数据组合
     $in=explode('|',$tool['inputs']);
     $l=count($in);
     if($l==1){
-$input=trims($_POST[$in[0]]);
-}else{
-for($i=0;$i<$l;$i++){ 
-  $input=$input.trims($_POST["in".($i+1)]); 
-  if($i<$l-1) $input=$input."|";
- }
-}
-    
-    
-    $a = array($tool['tid'],$_SESSION["user_uid"], $name, $time, $out_trade_no, $money, $input, $num);
-    query($sql, $a);
-    
+    $input=trims($_POST[$in[0]]);
+    }else{
+        for($i=0;$i<$l;$i++){
+          $input=$input.trims($_POST["in".($i+1)]); 
+          if($i<$l-1) $input=$input."|";
+        }
+    }
+
+    query("INSERT INTO `orders`(`tid`,`uid`,`name`,`addtime`,`tradeno`,`money`,`zt`,`cid`,`input`,`num`) VALUES (?,?,?,?,?,?,0,'2',?,?)",array($tool['tid'],$user['uid'], $name, $time, $out_trade_no, $money, $input, $num));
         if ($user['money'] < $money) {
-            $_SESSION["alert"] = '<div class="alert alert-danger" role="alert">您的余额不足已购买该商品！</div>';
+            $_SESSION["alert"] = alert('您的余额不足已购买该商品！',1);
             header("Location:" . $_SESSION["payqurl"]);
             exit;
         }
         $pdo->query("update orders set zt='1' where tradeno ='{$out_trade_no}'");
-        $a = $user['money'] - $money;
-        $xf= $user['xfmoney'] + $money;
-        query("update user set money=? , xfmoney=? where uid =?", array($a,$xf, $user['uid']));
-        $a = $pdo->query("select * from orders where tradeno = '{$out_trade_no}'");
-        $rows = $a->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $pdo->query("select * from orders where tradeno = '{$out_trade_no}'")->fetchAll(PDO::FETCH_ASSOC);
         $rs = count($rows);
         if ($rs < 1) {
             $_SESSION["alert"] = '<div class="alert alert-danger" role="alert">订单创建失败，数据库错误:epay.74！</div>';
             header("Location:" . $_SESSION["payqurl"]);
             exit;
         }
+        $a = $user['money'] - $money;
+        $xf= $user['xfmoney'] + $money;
+        query("update user set money=? , xfmoney=? where uid =?", array($a,$xf, $user['uid']));
+        if($issite){
+            $mm=getsitetc($tid);
+            query("update user set money=money+'{$mm}' where uid =?", array($conf['siteuid']));//添加提成
+            $pdo->query("INSERT user_log (uid,time,name,m,cid) VALUES ('{$conf['siteuid']}','{$time}','下级提成：{$mm}元','{$mm}','2')");
+        }
             $r = $rows[0];
-            
 //      if ($type == "yue") {//余额支付
             $pdo->query("update orders set zt='2' where tradeno ='{$out_trade_no}'");
             require_once("../php/ddcl.php");
             $b=ddcl($r, $user);
             if($b=="ok"){
-            $_SESSION["alert"] = '<div class="alert alert-danger" role="alert">订单处理已完成，请核实处理结果！</div>';
+            $_SESSION["alert"] = alert('订单处理已完成，请核实处理结果！');
             }else{
-            $_SESSION["alert"] = '<div class="alert alert-danger" role="alert">订单处理结果：'.$b.'</div>';
+            $_SESSION["alert"] = alert('订单处理结果：'.$b,1);
             }
             header("Location:../view.php?mydd");
             exit;
  //       }
-        //exit; //不继续进行付款
     }//结束
     //exit; //拒绝付款测试用
-
 
 //易支付
 $parameter = array(

@@ -1,24 +1,30 @@
+<?php
+@$ym = $_SERVER["QUERY_STRING"];
+$yms = explode("&", $ym);
+include './php/main.php';
+if($conf['ccon']=='1')include './php/cc.php';
+
+?>
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>在线云端管理平台 - KEY云</title>
+    <title><?php echo $conf['title']; ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
     <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/checkbox3.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/dataTables.bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="assets/lib/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/lib/css/select2.min.css">
     <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/themes/flat-blue.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $cdn;?>assets/css/themes/flat-blue.css">
 </head>
 
 <body class="flat-blue landing-page">
@@ -33,7 +39,7 @@
                 </button>
                 <a class="navbar-brand" href="#">
                     <div class="icon fa fa-paper-plane"></div>
-                    <div class="title">KEY云</div>
+                    <div class="title"><?php echo $conf['name']; ?></div>
                 </a>
             </div>
             <div id="navbar" class="navbar-collapse collapse " aria-expanded="true">
@@ -49,9 +55,9 @@
     </nav>
     <div class="jumbotron app-header">
         <div class="container">
-            <h2 class="text-center"><i class="app-logo fa fa-connectdevelop fa-5x color-white"></i><div class="color-white">KEY云 V1.2</div></h2>
-            <p class="text-center color-white app-description">KEY云段在线管理平台是科佑儿网络科技开发的在线云管理系统。集成多种在线开发管理功能。<br>帮助你团队的快速开发，方便管理！</p>
-            <p class="text-center"><a class="btn btn-primary btn-lg app-btn" href="admin.php" role="button">开始使用 »</a></p>
+            <h2 class="text-center"><i class="app-logo fa fa-connectdevelop fa-5x color-white"></i><div class="color-white"><?php echo $conf['name']; ?></div></h2>
+            <p class="text-center color-white app-description">KEY云端在线管理平台是科佑儿网络科技开发的在线云管理系统。集成多种在线开发管理功能。<br>帮助你团队的快速开发，方便管理！</p>
+            <p class="text-center"><a class="btn btn-primary btn-lg app-btn" href="main" role="button">开始使用 »</a></p>
         </div>
     </div>
     <div class="container-fluid app-content-a">
@@ -61,7 +67,7 @@
                   <i class="fa fa-circle-thin fa-stack-2x"></i>
                   <i class="fa fa-twitter fa-stack-1x"></i>
                 </span>
-                <h2>快速开发</h2>
+                <h2>轻量运行</h2>
                 <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
             </div>
             <!-- /.col-lg-4 -->
@@ -70,7 +76,7 @@
                   <i class="fa fa-circle-thin fa-stack-2x"></i>
                   <i class="fa fa-inbox fa-stack-1x"></i>
                 </span>
-                <h2>团队管理</h2>
+                <h2>高速响应</h2>
                 <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
             </div>
             <!-- /.col-lg-4 -->
@@ -79,7 +85,7 @@
                   <i class="fa fa-circle-thin fa-stack-2x"></i>
                   <i class="fa fa-comments-o fa-stack-1x"></i>
                 </span>
-                <h2>协同办公</h2>
+                <h2>可视管理</h2>
                 <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
             </div>
             <!-- /.col-lg-4 -->
@@ -228,33 +234,15 @@
         <p class="text-muted">&copy; 2015, Tui2Tone Templates Studio.</p>
       </div>
     </footer>
-    <!-- Javascript Libs -->
-    <!--script type="text/javascript" src="assets/lib/js/jquery.min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/Chart.min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/bootstrap-switch.min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/jquery.matchHeight-min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/select2.full.min.js"></script>
-    <script type="text/javascript" src="assets/lib/js/ace/ace.js"></script>
-    <script type="text/javascript" src="assets/lib/js/ace/mode-html.js"></script>
-    <script type="text/javascript" src="assets/lib/js/ace/theme-github.js"></script-->
-    
-    
-            <script type="text/javascript" src="./assets/lib/js/jquery.min.js"></script>
-            <script type="text/javascript" src="./assets/lib/js/bootstrap.min.js"></script>
-            <!--script type="text/javascript" src="./assets/lib/js/Chart.min.js"></script-->
-            <script type="text/javascript" src="./assets/lib/js/bootstrap-switch.min.js"></script>
-            <script type="text/javascript" src="./assets/lib/js/jquery.matchHeight-min.js"></script>
-            <script type="text/javascript" src="./assets/lib/js/jquery.dataTables.min.js"></script>
-            <!--script type="text/javascript" src="./assets/lib/js/dataTables.bootstrap.min.js"></script-->
-            <script type="text/javascript" src="./assets/lib/js/select2.full.min.js"></script>
-            <!--script type="text/javascript" src="./assets/lib/js/ace/ace.js"></script>
-            <script type="text/javascript" src="./assets/lib/js/ace/mode-html.js"></script>
-            <script type="text/javascript" src="./assets/lib/js/ace/theme-github.js"></script-->
+            <script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/jquery.min.js"></script>
+            <script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/bootstrap.min.js"></script>
+            <!--script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/Chart.min.js"></script-->
+            <script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/bootstrap-switch.min.js"></script>
+            <script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/jquery.matchHeight-min.js"></script>
+            <script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/jquery.dataTables.min.js"></script>
+            <!--script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/dataTables.bootstrap.min.js"></script-->
+            <script type="text/javascript" src="<?php echo $cdn;?>assets/lib/js/select2.full.min.js"></script>
 
     <!-- /.container -->
 </body>
-
 </html>

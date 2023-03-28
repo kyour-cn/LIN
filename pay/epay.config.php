@@ -1,5 +1,6 @@
 <?php
 //易支付配置文件
+include $_SERVER['DOCUMENT_ROOT'].'/config.php';
 $alipay_config['partner']= '4334';
 $alipay_config['key']= 'E2oe9U88TJ19TO1HhHptTtztKHWw22e6';
 $alipay_config['sign_type']= strtoupper('MD5');

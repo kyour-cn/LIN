@@ -21,14 +21,8 @@ $class=$pdo->query("SELECT * FROM class where cid='{$yms[1]}'")->fetch();
                                     <div class="sub-title">请选择下单的商品 <span class="description">( <a href="javascript:alert('功能正在开发中！');">查看价格表</a> )</span></div>
                                         <select id="tid" name="tid" style="width:100%;">
                                             <option value="">请选择...</option>
-                                            <!--optgroup label="球球观战50人">
-                                                <option value="1">1小时</option>
-                                                <option value="2">2小时</option>
-                                                <option value="3">3小时</option>
-                                                <option value="HI">5小时</option>
-                                            </optgroup-->
 <?php
-$q=$pdo->query("SELECT * FROM tools where class='{$yms[1]}' ORDER BY px");
+$q=$pdo->query("SELECT * FROM tools where zt='1' and class='{$yms[1]}' ORDER BY px");
 $rows=$q->fetchAll(PDO::FETCH_ASSOC);
 $rs=count($rows);
 if($rs<1){
@@ -40,7 +34,7 @@ if($rs<1){
 	    if($r['zt']=="100"){
 		    echo "<optgroup label='{$r['name']}'></optgroup>";
 	    }else{
-	        echo "<option value='{$r['tid']}'>{$r['name']}</option>";
+	        echo "<option value='{$r['tid']}'>{$r['name']} (ID:{$r['tid']})</option>";
 	    }
 	}
 }
@@ -53,11 +47,10 @@ if($rs<1){
                                     </div>
                                     
                                     <div id="numd"></div>
-                                        
-                                    <!--div class="sub-title">请选择支付方式</div>
                                     <div class="alert alert-success" role="alert">
                                         <strong>价格：<span id="tmoney">0.00</span>元</strong>
                                     </div>
+                                    <!--div class="sub-title">请选择支付方式</div>
                                         <div>
                                           <div class="radio3 radio-check radio-inline">
                                             <input id="radio7" name="type" value="yue" checked="" type="radio">

@@ -25,36 +25,26 @@ if ($nn == "regist") {
     }
     
     $skey = "";
-	$strPol = "123456789abcdefghijklmnpqrstuvwxyz";
+	$strPol = "123456789abcdefghijklmnpqrstuvwxyzABCDEFGHIJKMLNOPQRSTUVWXYZ.%*";
 	$max = strlen($strPol)-1;
-        for($i=0;$i<8;$i++){
+        for($i=0;$i<32;$i++){
                 $skey.=$strPol[rand(0,$max)];//rand($min,$max)生成介于min和max两个数之间的一个随机整数
         }
         //判断key是否存在
         while(($pdo->query("SELECT count(Id) from user where apikey='{$skey}'")->fetch()[0]!=0)){
         $skey = "";
-        for($i=0;$i<8;$i++){
+        for($i=0;$i<32;$i++){
                 $skey.=$strPol[rand(0,$max)];
         }
         }
         
     try {
-        $pdo_stmt=query("insert into user(uid,pass,name,qq,date,zt,apikey) values (?,?,?,?,'" . date("Y-m-d H:i:s") . "','1',?)",array($uid,$pass,$name,$qq,$skey));
-        /*
-        $sqll = "insert into user(uid,pass,name,qq,date,zt) values (:uid,:pass,:name,:qq,'" . date("Y-m-d H:i:s") . "','1')";
-        //防sql注入，注册账号
-        $pdo_stmt = $pdo->prepare($sqll);
-        $pdo_stmt->bindParam(':uid', $uid);
-        $pdo_stmt->bindParam(':pass', $pass);
-        $pdo_stmt->bindParam(':name', $name);
-        $pdo_stmt->bindParam(':qq', $qq);
-        $pdo_stmt->execute();
-        */
-        $reslut = $pdo_stmt->fetch();
+        $time=date("Y-m-d H:i:s",time());
+        query("insert into user(uid,pass,name,qq,date,zt,apikey,upsite) values (?,?,?,?,'{$time}','1',?,?)",array($uid,$pass,$name,$qq,$skey,$issite?$conf['siteuid']:"NONE"));
     } catch (PDOException $e) {
-        die('数据添加失败: ' . $e . "<br>" . $sqll); //如果sql执行失败输出错误
+        die('数据添加失败: ' . $e . "<br>" . $sqll);
     }
-    echo '<script>alert("注册成功！即将返回登录。");window.location.href="../";</script>';
+    echo '<script>alert("注册成功！请重新登录。");window.location.href="../";</script>';
 } else if ($nn == 'out') {//退出登陆
     unset($_SESSION['user_name']);
     unset($_SESSION['user_txurl']);
@@ -63,45 +53,34 @@ if ($nn == "regist") {
     unset($_SESSION['user_name']);
     echo"<script>alert('注销登录成功！');window.location.href='../';</script>";
 } else if ($nn == "login") {
-    $sql = "select uid from user where uid=:uid";
-    $pdo_stmt = $pdo->prepare($sql);
-    $pdo_stmt->bindParam(':uid', $uid);
-    $pdo_stmt->execute();
-    $num2 = $pdo_stmt->fetch();
+    $num2 = query("select uid from user where uid=?",array($uid))->fetch();
 
     if ($num2) {       //存在该用户
         //$pdo->query("update user set dlsj='".date("Y.m.d")."' where uid ='".$uid."'");//更新登录时间
-        $sql = "select * from user where uid =:uid and pass =:pass";
-        $pdo_stmt = $pdo->prepare($sql);
-        $pdo_stmt->bindParam(':uid', $uid);
-        $pdo_stmt->bindParam(':pass', $pass);
-        $pdo_stmt->execute();
+        //$sql = "select * from user where uid =:uid and pass =:pass";
+        $pdo_stmt = query("select * from user where uid =? and pass =?",array($uid,$pass));//$pdo->prepare($sql);
+        //$pdo_stmt->bindParam(':uid', $uid);
+        //$pdo_stmt->bindParam(':pass', $pass);
+        //$pdo_stmt->execute();
         $num = $pdo_stmt->fetch();
         if ($num) {//密码正确
-            if ($num['zt'] > 0) {
+            if ($num['zt'] ) {
                 $_SESSION["user_name"] = $num["name"];
-                /*
-                  if($num["txurl"]=="NULL"){
-                  $_SESSION["user_txurl"]="http://".$this_host."/images/icon/icon.png";
-                  }else{
-                  $_SESSION["user_txurl"]= $num["txurl"];
-                  }
-                 */
                 $_SESSION["islogin"] = "1";
                 $_SESSION["user_uid"] = $uid;
                 @$url = $_SESSION["dlqym"];
                 if ($url != null) {//登陆前跳转
                     //header("Location:".$_SESSION["dlqym"]);
-                    echo '<script>alert("登录成功！即将返回登录。");window.location.href="' . $url . '";</script>';
+                    echo '<script>alert("登录成功！");window.location.href="' . $url . '";</script>';
                 } else {
                     //header("Location:'../'");
-                    echo '<script>alert("登录成功！即将返回首页。");window.location.href="../";</script>';
+                    echo '<script>alert("登录成功！即将返回首页。");window.location.href="../main";</script>';
                 }
             } else {
-                echo "<script>alert('请到注册邮箱完成验证，验证邮箱后即可登录！');history.go(-1);</script>";
+                echo "<script>alert('该账号未启用，请联系管理员！');history.go(-1);</script>";
             }
         } else {
-            echo "<script>alert('密码不正确！');history.go(-1);</script>";
+            echo "<script>alert('密码不正确，请核对后再试！');history.go(-1);</script>";
         }
     } else {
         echo "<script>alert('这个账号并没有注册！" . $uid . "');history.go(-1);</script>";

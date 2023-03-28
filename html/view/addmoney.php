@@ -23,7 +23,7 @@ $rs=count($rows);
                                     </blockquote>
                                     <div class="sub-title">充值金额数量（元/人名币）</div>
                                     <div>
-                                        <input class="form-control" name="money" placeholder="可保留两位小时，比如 20.55" type="text">
+                                        <input class="form-control" name="money" placeholder="可保留两位小数，比如 1.01" type="text">
                                     </div>
                                     <p class="bg-success">我们支持最常用的QQ、微信、支付宝三大平台在线充值，方便、快捷、安全的选择！</p>
                                     <div class="sub-title">请选择支付方式</div>

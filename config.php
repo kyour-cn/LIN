@@ -1,5 +1,14 @@
 <?php
 $zname = "科佑儿下单平台";
+/*
+$dbcf = array(
+    'host' => '39.105.36.166', //数据库服务器
+    'port' => 3306, //数据库端口
+    'user' => 'lsdb', //数据库用户名
+    'pwd' => 'lsdb123123', //数据库密码
+    'dbname' => 'lsdb', //数据库名
+);
+*/
 $dbcf = array(
     'host' => 'localhost', //数据库服务器
     'port' => 3306, //数据库端口

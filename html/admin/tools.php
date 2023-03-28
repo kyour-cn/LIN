@@ -26,7 +26,7 @@ $rs = count($rows);
         <p>这里可以进行商品增删查改的可视化操作，手机用户可滑动查看右边内容。</p>
         <p><font color="red">商品ID尽量用英文或数字，不要出现特殊字符或中文</font></p>
         <a href="view.php?admin&tools_edit&add" class="btn btn-info btn-xs">添加商品</a>&nbsp;
-        <a href="view.php?admin&tools_money&all" class="btn btn-info btn-xs">价格设置</a>&nbsp;
+        <a href="view.php?admin&tools_money" class="btn btn-info btn-xs">价格设置</a>&nbsp;
     </div>
     <div class="table-responsive">
         <table class="table table-striped">

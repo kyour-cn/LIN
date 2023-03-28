@@ -1,7 +1,7 @@
         </div>
         <footer class="app-footer">
             <div class="wrapper">
-                <span class="pull-right"><?php echo $conf['ver']; ?> <a href="#"><i class="fa fa-long-arrow-up"></i></a></span> © 2018 Copyright. LIN-v1 &nbsp;&nbsp;by&nbsp;&nbsp; <a href="http://www.kyour.vip/" target="_blank" title="科佑儿网络">科佑儿网络</a>
+                <span class="pull-right"><?php echo $conf['ver']; ?> <a href="#"><i class="fa fa-long-arrow-up"></i></a></span> © 2018 Copyright. KEY &nbsp;&nbsp;by&nbsp;&nbsp; <a href="http://www.kyour.vip/" target="_blank" ><?php echo $conf['name'];?></a>
             </div>
         </footer>
         </div>

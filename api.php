@@ -13,9 +13,9 @@ $er=array(
 "zt"=>""
 );
 $ggc="json";
+if(isset($_REQUEST['run']))$ggc=$_REQUEST['run'];
 function endc(){
-global $er;global $sout;global $ggc;global $ddid;
-$sout["e"]=false;
+global $er;global $ggc;
 switch ($ggc)
 {
 case "text":
@@ -39,36 +39,36 @@ $tid=trims($_REQUEST['tid']);
 $num=trims($_REQUEST['num']);
 $inputs=trims($_REQUEST['input']);
 $rs=trims($_REQUEST['rs']);//返回值类型
-	$user=query("SELECT * FROM user where apikey=?",array($key))->fetch();
+$user=query("SELECT * FROM user where apikey=?",array($key))->fetch();
 if($user['apikey']!=$key or $key==""){
 $er['msg']="秘钥不正确或不存在";
+endc();
 }
 
 
 
 
     //下单开始
-$time = date("Y-m-d H:i:sa");
+$time=date("Y-m-d H:i:s",time());
     if (empty($num)) $num = "1";
-    $tool = query("SELECT * FROM tools where tid=?",array($tid))->fetch();
+    $tool = query("SELECT * FROM tools where zt='1' and tid='{$tid}'",array($tid))->fetch();
     if (empty($tool['tid'])) {
-        $er['name']='该商品并不存在！';
+        $er['msg']='该商品并不存在！'.$tool['tid'];
         endc();
     }
+    if($num<$tool['num']){
+        $er['msg']="该商品下单数量不能低于{$tool['num']}";
+        endc();
+    }
+    
+    
     $s1=count(explode('|',$tool['inputs']));
     $s2=count(explode('|',$inputs));
     if($s1!=$s2){
         $er['msg']="参数数量不正确";
         endc();
     }
-    $money = $tool['money']; //未计算折扣
-    
-    //计算价格
-    $b = $pdo->query("SELECT * FROM tools_money where tid='{$tool['tid']}'")->fetch();
-    $money=$b[$user['class']];
-    if($money=="main"){
-        $money=$tool['money'];
-    }
+    $money=getmytoolmon($tool);
     
     $name = "API购买:" . $tool['name'];
     $sql = "INSERT INTO `orders`(`tid`, `uid`, `name`, `addtime`, `tradeno`, `money`, `zt`, `cid`, `input`, `num`) VALUES (?,?, ?, ?, ?, ?, 0, '2', ?, ?)";
@@ -76,7 +76,7 @@ $time = date("Y-m-d H:i:sa");
     
     
     $a = array($tool['tid'],$user['uid'], $name, $time, $out_trade_no, $money, $inputs, $num);
-    print_r($a);
+    //print_r($a);
     query($sql, $a);
     
         if ($user['money'] < $money) {
@@ -85,9 +85,7 @@ $time = date("Y-m-d H:i:sa");
             endc();
         }
         $pdo->query("update orders set zt='1' where tradeno ='{$out_trade_no}'");
-        $a = $user['money'] - $money;
-        $xf= $user['xfmoney'] +$money;
-        query("update user set money=? , xfmoney=? where uid =?", array($a,$xf, $user['uid']));
+
         $a = $pdo->query("select * from orders where tradeno = '{$out_trade_no}'");
         $rows = $a->fetchAll(PDO::FETCH_ASSOC);
         $rs = count($rows);
@@ -95,6 +93,9 @@ $time = date("Y-m-d H:i:sa");
             $er['msg']='订单创建失败，数据库错误';
             
         }
+        $a = $user['money'] - $money;
+        $xf= $user['xfmoney'] +$money;
+        query("update user set money=? , xfmoney=? where uid =?", array($a,$xf, $user['uid']));
             $r = $rows[0];
             //余额支付
             $pdo->query("update orders set zt='2' where tradeno ='{$out_trade_no}'");
@@ -107,41 +108,6 @@ $time = date("Y-m-d H:i:sa");
             }
             $er['code']='1';
             //下单结束
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 endc();
 break;

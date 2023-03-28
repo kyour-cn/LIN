@@ -1,0 +1,12 @@
+if (!-e $request_filename) {
+rewrite admin-(\w+)-([\w\d]+)-([\w\d]+) /view.php?admin&$1&$2&$3 last;
+rewrite admin-(\w+)-([\w\d]+) /view.php?admin&$1&$2 last;
+rewrite admin-([\w\d]+) /view.php?admin&$1 last;
+
+rewrite v-(\w+)-([\w\d]+)-([\w\d]+) /view.php?$1&$2&$3 last;
+rewrite v-(\w+)-([\w\d]+) /view.php?$1&$2 last;
+rewrite v-(\w+) /view.php?$1 last;
+
+rewrite /main /admin.php last;
+rewrite /admin /view.php?admin&system last;
+}

@@ -19,12 +19,13 @@ $rs = count($rows);
 
 $a = $pdo->query("SELECT * FROM user_class");
 $uclass = $a->fetchAll(PDO::FETCH_ASSOC);
+$adtag="tools";
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">商品价格管理 - 共<?php echo $s;?>条记录</div>
     <div class="panel-body">
         <p>这里可以进行商品用户组独立价格设定，手机用户可滑动查看右边内容。</p>
-        <p><font color="red">注意：<span class='btn btn-default btn-xs'>main</span>为默认价格！以商品 (默认价格x用户组折扣%)为准！</font></p>
+        <p><font color="red">注意：<span class='btn btn-default btn-xs'>默认</span>为默认价格！以商品 (默认价格x用户组折扣%)为准！</font></p>
 
     </div>
     <div class="table-responsive">
@@ -32,7 +33,7 @@ $uclass = $a->fetchAll(PDO::FETCH_ASSOC);
             <thead>
                 <tr>
                     <th>操作</th>
-                    <th>tid</th>
+                    <th>商品ID</th>
                     <th>商品名</th>
                     <?php
                     foreach ($uclass as $a) {
@@ -57,7 +58,7 @@ $uclass = $a->fetchAll(PDO::FETCH_ASSOC);
                     $b = $pdo->query("SELECT * FROM tools_money where tid='{$r['tid']}'")->fetch();
                     //print_r($b);
                     if($b[$a['vipid']]=='main')
-                    echo "<th><span class='btn btn-default btn-xs'>{$b[$a['vipid']]}</span></th>\n";
+                    echo "<th><span class='btn btn-default btn-xs'>默认</span></th>\n";
                     else
                     echo "<th>{$b[$a['vipid']]}</th>\n";
                     //echo "SELECT * FROM tools_money where tid='{$r['tid']}'";
@@ -102,8 +103,6 @@ $uclass = $a->fetchAll(PDO::FETCH_ASSOC);
     </div>
 </div>
 
-
-
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -112,12 +111,12 @@ $uclass = $a->fetchAll(PDO::FETCH_ASSOC);
         <h4 class="modal-title" id="exampleModalLabel">商品价格设定</h4>
       </div>
       <div class="modal-body">
-        <p>如果需要设置默认请填写main！</p>
+        <p>如果需要设置默认请填写main或留空！</p>
         <div id="modk"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button id="setbtn" type="button" class="btn btn-primary">修改</button>
+        <button id="setbtn" type="button" class="btn btn-primary">修改价格</button>
       </div>
     </div>
   </div>
@@ -125,9 +124,10 @@ $uclass = $a->fetchAll(PDO::FETCH_ASSOC);
 
 
 <?php
-$boms='<script>
+$boms=<<<EOF
+<script>
 function ginp(a,b,c){
-return \'<div class="form-group"><label for="recipient-name" class="control-label">\'+a+\'</label><input type="text" value="\'+c+\'" class="form-control" id="\'+b+\'"></div>\';
+return '<div class="form-group"><label for="recipient-name" class="control-label">'+a+'</label><input type="text" value="'+c+'" class="form-control" id="'+b+'"></div>';
 }
 
 $(".editbtn").click(function(){
@@ -146,14 +146,13 @@ $("#myModal").modal("show")
   data[plist[i]]=$("#"+plist[i]).val();
 }
 
-//alert(data["vip"]);
-
   $.post("php/admin.php?tmoneyupd",data,function(result){
-    alert(result);
+    if(result!="ok")alert("修改可能未成功！");
 $("#myModal").modal("hide")
 window.location.reload();
   });
 
   });
-</script>';
+</script>
+EOF;
 ?>

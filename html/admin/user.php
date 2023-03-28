@@ -40,6 +40,7 @@ $rs = count($rows);
                     <th>用户组</th>
                     <th>状态</th>
                     <th>QQ</th>
+                    <th>分站</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,8 +58,9 @@ $rs = count($rows);
                     <th><?php echo $r['money']; ?></th>
                     <th><?php echo date("Y-m-d H:i:s",strtotime($r['date'])); ?></th>
                     <th><span class="btn btn-default btn-xs"><?php echo $r['class'];?></span></th>
-                    <th><?php echo $r['zt']; ?></th>
+                    <th><?php echo $r['zt']?"1":"禁用"; ?></th>
                     <th><?php echo $r['qq']; ?></th>
+                    <th><a class="btn btn-info btn-xs sitebtn">设置</a>&nbsp;<?php echo ($r['host']=="")?"未设置":$r['host']; ?></th>
                 </tr>
                     <?php
                         }
@@ -108,6 +110,10 @@ window.location.href="./view.php?admin&user_edit&"+uid;
 $(".ddbtn").click(function(){
 uid=$(this).parent().parent().find(".uid").text();
 window.location.href="./view.php?admin&user_dd&"+uid;
+});
+$(".sitebtn").click(function(){
+uid=$(this).parent().parent().find(".uid").text();
+window.location.href="./view.php?admin&site_edit&"+uid;
 });
 $(".delbtn").click(function(){
 uid=$(this).parent().parent().find(".uid").text();

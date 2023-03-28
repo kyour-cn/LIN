@@ -48,7 +48,7 @@ $rows = $a->fetchAll(PDO::FETCH_ASSOC);
 $rs = count($rows);
 
                     if ($rs < 1) {
-                        echo "<th scope='row'></th><td>没有记录</td><td></td><td></td><td></td><td></td></tr>";
+                        echo "没有记录";
                     } else {
                         foreach ($rows as $r) {
                             $a= '<option';

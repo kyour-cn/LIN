@@ -13,7 +13,7 @@ if (!empty($ym)) {
 
 $btitle = "平台首页";
 include './php/main.php';
-if($conf['fccon']=='1')include './php/cc.php';
+if($conf['ccon']=='1')include './php/cc.php';
 include './html/inc/head.php';
 ?>
 <!-- Main Content -->

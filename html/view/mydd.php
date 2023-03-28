@@ -21,7 +21,7 @@ $rows = $a->fetchAll(PDO::FETCH_ASSOC);
 $rs = count($rows);
 
 
-
+$ym="user";
 ?>
 <div class="card">
     <div class="card-header">
@@ -45,7 +45,7 @@ $rs = count($rows);
                 <tr>
                     <?php
                     if ($rs < 1) {
-                        echo "<th scope='row'></th><td>没有记录</td><td></td><td></td><td></td><td></td></tr>";
+                        echo "<th scope='row'></th><td>没有记录</td></tr>";
                     } else {
 
                         foreach ($rows as $r) {

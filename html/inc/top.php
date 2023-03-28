@@ -16,18 +16,26 @@
                         <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                             <i class="fa fa-times icon"></i>
                         </button>
+<?php
+$ss="gd";
+if($conf['admin']==$_SESSION["user_uid"]){
+$ss="admin&gd";
+$s = $pdo->query("SELECT count(Id) from gd where cid=0 and uc=0")->fetch()[0];
+}else
+$s = $pdo->query("SELECT count(Id) from gd where cid=0 and uc=0 and uid='{$user['uid']}'")->fetch()[0];
+?>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comments-o"></i></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">消息 <?php echo $s;?> <i class="fa fa-comments-o"></i> </a>
                             <ul class="dropdown-menu animated fadeInDown">
                                 <li class="title">
-                                    通知消息 <span class="badge pull-right">0</span>
+                                    我的工单 <span class="badge pull-right"><?php echo $s;?></span>
                                 </li>
                                 <li class="message">
-                                    没有通知内容
+                                    <a href="view.php?<?php echo $ss;?>">点击查看</a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown danger">
+                        <!--li class="dropdown danger">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-star-half-o"></i> 0</a>
                             <ul class="dropdown-menu danger  animated fadeInDown">
                                 <li class="title">
@@ -58,25 +66,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="dropdown profile">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">我的 <span class="caret"></span></a>
-                            <ul class="dropdown-menu animated fadeInDown">
-                                <li class="profile-img">
-                                    <img src="./assets/img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">
-                                </li>
-                                <li>
-                                    <div class="profile-info">
-                                        <h4 class="username">邮箱</h4>
-                                        <p>kyour@vip.qq.com</p>
-                                        <div class="btn-group margin-bottom-2x" role="group">
-                                            <button type="button" class="btn btn-default"><i class="fa fa-user"></i> 个人中心</button>
-                                            <button type="button" class="btn btn-default"><i class="fa fa-sign-out"></i> 注销</button>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+                        </li-->
                     </ul>
                 </div>
             </nav>

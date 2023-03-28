@@ -16,6 +16,7 @@ $f[3]=$f[4]-$f[0];
 $a = $pdo->query("SELECT * FROM user_class ORDER BY px limit {$f[3]},{$f[0]}");
 $rows = $a->fetchAll(PDO::FETCH_ASSOC);
 $rs = count($rows);
+$adtag="user";
 ?>
 <div class="row">
 <div class="col-sm-8 col-xs-12">
@@ -35,6 +36,7 @@ $rs = count($rows);
                     <th>名称</th>
                     <th>默认折扣%</th>
                     <th>价值</th>
+                    <th>分站</th>
                     <th>排序</th>
                 </tr>
             </thead>
@@ -52,6 +54,7 @@ $rs = count($rows);
                     <th><?php echo $r['name']; ?></th>
                     <th><?php echo $r['zk']; ?></th>
                     <th><?php echo $r['money']; ?></th>
+                    <th><?php echo $r['issite']?"启用":"关闭"; ?></th>
                     <th><?php echo $r['px']; ?></th>
                 </tr>
                     <?php

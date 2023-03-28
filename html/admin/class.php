@@ -17,6 +17,8 @@ $f[3]=$f[4]-$f[0];
 $a = $pdo->query("SELECT * FROM class ORDER BY px limit {$f[3]},{$f[0]}");
 $rows = $a->fetchAll(PDO::FETCH_ASSOC);
 $rs = count($rows);
+
+$adtag="tools";
 ?>
 <div class="row">
 <div class="col-sm-8 col-xs-12">
@@ -41,7 +43,7 @@ $rs = count($rows);
             <tbody>
                     <?php
                     if ($rs < 1) {
-                        echo "<th scope='row'></th><td>没有记录</td><td></td><td></td><td></td><td></td></tr>";
+                        echo "<th scope='row'></th><td>没有记录</td></tr>";
                     } else {
 
                         foreach ($rows as $r) {
@@ -97,6 +99,15 @@ $boms='<script>
 $(".editbtn").click(function(){
 uid=$(this).parent().parent().find(".uid").text();
 window.location.href="./view.php?admin&class_edit&"+uid;
+});
+$(".delbtn").click(function(){
+uid=$(this).parent().parent().find(".uid").text();
+if(window.confirm("你确定要删除"+uid+"？")){
+window.location.href="./php/admin.php?classdel&"+uid;
+                 return true;
+              }else{
+                 return false;
+             }
 });
 </script>';
 ?>

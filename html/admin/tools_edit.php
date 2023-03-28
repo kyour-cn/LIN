@@ -1,5 +1,5 @@
 <?php
-$iuser = array('zt' => '1', 'money' => '0','px'=>10);
+$iuser = array('zt' => '1', 'money' => '0','px'=>10,'num'=>"1",'vals'=>"NONE");
 if ($yms[2] == "add") {
     //$iuser=array('zt'=>'1','money'=>'0');
     $btitle = $btitle . "/添加商品";
@@ -33,6 +33,10 @@ if ($yms[2] == "add") {
                     <div class="sub-title">默认价格(普通用户)</div>
                     <div>
                         <input name="money" value="<?php echo $iuser['money']; ?>" class="form-control" placeholder="不能位空" type="text">
+                    </div>
+                    <div class="sub-title">最低数量</div>
+                    <div>
+                        <input name="num" value="<?php echo $iuser['num']; ?>" class="form-control" type="text">
                     </div>
                     <div class="sub-title">排序</div>
                     <div>
@@ -102,6 +106,7 @@ var clid='" . $iuser['clid'] . "';
 var clval='" . $iuser['clval'] . "';
 var clpost='" . $iuser['clpost'] . "';
 var cookie='" . $iuser['cookie'] . "';
+var vals='" . $iuser['vals'] . "';
 function toe(a,b,c){
 return '<div class=\"sub-title\">'+a+'</div><div><input name=\"'+b+'\" id=\"'+b+'\"value=\"'+c+'\" class=\"form-control\" type=\"text\"></div>';
 }
@@ -112,10 +117,11 @@ case '0':
 $('#clv').html('');
 break;
 case '1':
-$('#clv').html(toe('URL地址(可用变量)','clval','clval')+toe('POST值(可用变量)','clpost','clpost')+toe('Cookie(可留空)','cookie','cookie'));
+$('#clv').html(toe('URL地址(可用变量)','clval','clval')+toe('POST值(可用变量)','clpost','clpost')+toe('Cookie(可留空)','cookie','cookie')+toe('返回结果判断(默认NONE)','vals','vals'));
 $('#clpost').val(clpost);
 $('#clval').val(clval);
 $('#cookie').val(cookie);
+$('#vals').val(vals);
 break;
 case '2':
 $('#clv').html(toe('邮箱地址','clval','clval'));

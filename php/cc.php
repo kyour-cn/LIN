@@ -14,7 +14,7 @@ if(isset($_SESSION['cc_lasttime'])){
 }
 if(($cc_nowtime-$cc_lasttime)<3){
     if($cc_times>=5){
-        echo 'Hello&nbsp;World<script>alert("操作太快!")</script>';
+        echo '请等待5秒！<script>alert("操作太快!")</script>';
         exit;
     }
 }else{
